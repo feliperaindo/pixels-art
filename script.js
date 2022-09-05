@@ -27,7 +27,9 @@ function randomPaletteColor() {
     }
   }
 }
-randomPaletteColor();
+
+const getButton = document.getElementById('button-random-color');
+getButton.addEventListener('click', randomPaletteColor);
 
 // function createHightPixelBoard() {
 //  let element = document.getElementById('pixel-board');
@@ -38,3 +40,4 @@ randomPaletteColor();
 //     console.log element;
 //     }
 // }
+window.onload = randomPaletteColor;
