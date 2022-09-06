@@ -46,6 +46,11 @@ function randomPaletteColor() {
 }
 
 function loadLocalStorage() {
+  const local = localStorage.getItem('colorPalette');
+
+  if (local === null) {
+    randomPaletteColor();
+  }
   const load = JSON.parse(localStorage.getItem('colorPalette'));
   for (let index = 0; index < load.colorPalette.length; index += 1) {
     document.querySelectorAll('.color')[index + 1].style.backgroundColor = load.colorPalette[index];
