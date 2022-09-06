@@ -4,6 +4,7 @@ function checkColorWhite(element) {
         || element.style.backgroundColor === 'white') {
     return false;
   }
+  return true;
 }
 function checkRepetitionColor(element) {
   const getElement = document.querySelectorAll('.color');
@@ -13,6 +14,7 @@ function checkRepetitionColor(element) {
       return false;
     }
   }
+  return true;
 }
 function randomPaletteColor() {
   const getElement = document.querySelectorAll('.color');
@@ -30,6 +32,10 @@ function randomPaletteColor() {
 
 const getButton = document.getElementById('button-random-color');
 getButton.addEventListener('click', randomPaletteColor);
+
+function saveColor() {
+
+}
 
 // function createHightPixelBoard() {
 //  let element = document.getElementById('pixel-board');
