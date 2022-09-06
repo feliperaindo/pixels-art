@@ -21,8 +21,8 @@ function checkRepetitionColor(element) {
 function saveColor() {
   const saved = document.querySelectorAll('.color');
 
-  for (let index = 0; index < saved.length; index += 1) {
-    localStorage.setItem(`style${[index]}`, JSON.stringify(saved[index].style));
+  for (let index = 1; index < saved.length; index += 1) {
+    localStorage.setItem(`style${[index]}`, JSON.stringify(saved[index].style.backgroundColor));
   }
 }
 
@@ -41,20 +41,19 @@ function randomPaletteColor() {
   saveColor();
 }
 
-// function loadLocalStorage() {
-//   const getElement = document.querySelectorAll('.color');
-//   const loadZero = JSON.parse(sessionStorage.getItem('style0'));
-//   const loadOne = JSON.parse(sessionStorage.getItem('style1'));
-//   const loadTwo = JSON.parse(sessionStorage.getItem('style2'));
-//   const loadThree = JSON.parse(sessionStorage.getItem('style3'));
-//   getElement[0].style.loadZero;
-//   getElement[1].style(loadOne);
-//   getElement[2].style(loadTwo);
-//   getElement[3].style(loadThree);
-// }
+function loadLocalStorage() {
+  const loadOne = JSON.parse(localStorage.getItem('style1'));
+  const loadTwo = JSON.parse(localStorage.getItem('style2'));
+  const loadThree = JSON.parse(localStorage.getItem('style3'));
+
+  document.querySelectorAll('.color')[1].style.backgroundColor = loadOne;
+  document.querySelectorAll('.color')[2].style.backgroundColor = loadTwo;
+  document.querySelectorAll('.color')[3].style.backgroundColor = loadThree;
+}
 
 const getButton = document.getElementById('button-random-color');
 getButton.addEventListener('click', randomPaletteColor);
+window.onload = loadLocalStorage;
 
 // function createHightPixelBoard() {
 //  let element = document.getElementById('pixel-board');
