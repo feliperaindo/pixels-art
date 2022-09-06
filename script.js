@@ -57,10 +57,6 @@ function loadLocalStorage() {
   }
 }
 
-const getButton = document.getElementById('button-random-color');
-getButton.addEventListener('click', randomPaletteColor);
-window.onload = loadLocalStorage;
-
 function createPixels(id) {
   const element = document.getElementById(id);
 
@@ -82,3 +78,28 @@ function createHightPixelBoard() {
   }
 }
 createHightPixelBoard();
+
+function selectPaintColor(click) {
+  const colorSelected = click.target;
+  const allColors = document.querySelectorAll('.color');
+
+  for (let index = 0; index < allColors.length; index += 1) {
+    if (allColors[index].classList.contains('selected')) {
+      allColors[index].classList.remove('selected');
+    }
+  }
+  colorSelected.classList.add('selected');
+}
+
+const colorOne = document.querySelectorAll('.color')[0];
+const colorTwo = document.querySelectorAll('.color')[1];
+const colorThree = document.querySelectorAll('.color')[2];
+const colorFour = document.querySelectorAll('.color')[3];
+colorOne.addEventListener('click', selectPaintColor);
+colorTwo.addEventListener('click', selectPaintColor);
+colorThree.addEventListener('click', selectPaintColor);
+colorFour.addEventListener('click', selectPaintColor);
+
+const getButton = document.getElementById('button-random-color');
+getButton.addEventListener('click', randomPaletteColor);
+window.onload = loadLocalStorage;
