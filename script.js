@@ -6,6 +6,7 @@ function checkColorWhite(element) {
   }
   return true;
 }
+
 function checkRepetitionColor(element) {
   const getElement = document.querySelectorAll('.color');
 
@@ -16,6 +17,15 @@ function checkRepetitionColor(element) {
   }
   return true;
 }
+
+function saveColor() {
+  const saved = document.querySelectorAll('.color');
+
+  for (let index = 0; index < saved.length; index += 1) {
+    localStorage.setItem(`style${[index]}`, JSON.stringify(saved[index].style));
+  }
+}
+
 function randomPaletteColor() {
   const getElement = document.querySelectorAll('.color');
 
@@ -25,17 +35,26 @@ function randomPaletteColor() {
     checkColorWhite(getElement[index]);
     checkRepetitionColor(getElement[index]);
     if (checkColorWhite === false || checkRepetitionColor === false) {
-      index = 1;
+      index = 0;
     }
   }
+  saveColor();
 }
+
+// function loadLocalStorage() {
+//   const getElement = document.querySelectorAll('.color');
+//   const loadZero = JSON.parse(sessionStorage.getItem('style0'));
+//   const loadOne = JSON.parse(sessionStorage.getItem('style1'));
+//   const loadTwo = JSON.parse(sessionStorage.getItem('style2'));
+//   const loadThree = JSON.parse(sessionStorage.getItem('style3'));
+//   getElement[0].style.loadZero;
+//   getElement[1].style(loadOne);
+//   getElement[2].style(loadTwo);
+//   getElement[3].style(loadThree);
+// }
 
 const getButton = document.getElementById('button-random-color');
 getButton.addEventListener('click', randomPaletteColor);
-
-function saveColor() {
-
-}
 
 // function createHightPixelBoard() {
 //  let element = document.getElementById('pixel-board');
@@ -46,4 +65,3 @@ function saveColor() {
 //     console.log element;
 //     }
 // }
-window.onload = randomPaletteColor;
