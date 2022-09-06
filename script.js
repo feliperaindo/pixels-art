@@ -61,12 +61,24 @@ const getButton = document.getElementById('button-random-color');
 getButton.addEventListener('click', randomPaletteColor);
 window.onload = loadLocalStorage;
 
-// function createHightPixelBoard() {
-//  let element = document.getElementById('pixel-board');
-//  let elementCreator = document.createElement('div').
+function createPixels(id) {
+  const element = document.getElementById(id);
 
-//     for (let i = 0; i < 5; i += 1) {
-//     element.appendChild(elementCreator);
-//     console.log element;
-//     }
-// }
+  for (let index = 0; index < 5; index += 1) {
+    const elementCreator = document.createElement('div');
+    elementCreator.className = 'pixel';
+    element.appendChild(elementCreator);
+  }
+}
+
+function createHightPixelBoard() {
+  const element = document.querySelector('#pixel-board');
+
+  for (let i = 0; i < 5; i += 1) {
+    const elementCreator = document.createElement('div');
+    elementCreator.id = i;
+    element.appendChild(elementCreator);
+    createPixels(i.toString());
+  }
+}
+createHightPixelBoard();
