@@ -20,10 +20,14 @@ function checkRepetitionColor(element) {
 
 function saveColor() {
   const saved = document.querySelectorAll('.color');
+  const savedColor = {
+    colorPalette: [],
+  };
 
   for (let index = 1; index < saved.length; index += 1) {
-    localStorage.setItem(`style${[index]}`, JSON.stringify(saved[index].style.backgroundColor));
+    savedColor.colorPalette.push(saved[index].style.backgroundColor);
   }
+  localStorage.setItem('colorPalette', JSON.stringify(savedColor));
 }
 
 function randomPaletteColor() {
@@ -42,13 +46,10 @@ function randomPaletteColor() {
 }
 
 function loadLocalStorage() {
-  const loadOne = JSON.parse(localStorage.getItem('style1'));
-  const loadTwo = JSON.parse(localStorage.getItem('style2'));
-  const loadThree = JSON.parse(localStorage.getItem('style3'));
-
-  document.querySelectorAll('.color')[1].style.backgroundColor = loadOne;
-  document.querySelectorAll('.color')[2].style.backgroundColor = loadTwo;
-  document.querySelectorAll('.color')[3].style.backgroundColor = loadThree;
+  const load = JSON.parse(localStorage.getItem('colorPalette'));
+  for (let index = 0; index < load.colorPalette.length; index += 1) {
+    document.querySelectorAll('.color')[index + 1].style.backgroundColor = load.colorPalette[index];
+  }
 }
 
 const getButton = document.getElementById('button-random-color');
