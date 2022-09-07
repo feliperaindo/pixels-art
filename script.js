@@ -57,20 +57,6 @@ function randomPaletteColor() {
   saveColor();
 }
 
-function loadLocalStorage() {
-  const local = localStorage.getItem('colorPalette');
-  const element = document.querySelectorAll('.color');
-
-  if (local === null) {
-    randomPaletteColor();
-  } else {
-    const load = JSON.parse(localStorage.getItem('colorPalette'));
-    for (let index = 0; index < load.colorPalette.length; index += 1) {
-      element[index].style.backgroundColor = load.colorPalette[index];
-    }
-  }
-}
-
 function createPixels(id) {
   const element = document.getElementById(id);
 
@@ -104,6 +90,17 @@ function selectPaintColor(click) {
   colorSelected.classList.add('selected');
 }
 
+function savePixelsPainteds() {
+  const board = document.querySelectorAll('.pixel');
+  const savedPixels = {
+    color: [],
+  };
+  for (let index = 0; index < board.length; index += 1) {
+    savedPixels.color.push(board[index].style.backgroundColor);
+  }
+  localStorage.setItem('pixelBoard', JSON.stringify(savedPixels));
+}
+
 function clearBoard() {
   const selectAll = document.querySelectorAll('.pixel');
 
@@ -117,6 +114,35 @@ function applayCollor(click) {
   const colorSelected = document.querySelector('.selected');
 
   pixelClicked.style.backgroundColor = colorSelected.style.backgroundColor;
+  savePixelsPainteds();
+}
+
+function loadLocalStorageBoard() {
+  const local = JSON.parse(localStorage.getItem('pixelBoard'));
+  const element = document.querySelectorAll('.pixel');
+
+  if (local === null) {
+    savePixelsPainteds();
+  } else {
+    for (let index = 0; index < local.color.length; index += 1) {
+      element[index].style.backgroundColor = local.color[index];
+    }
+  }
+}
+
+function loadLocalStoragePaletta() {
+  const local = localStorage.getItem('colorPalette');
+  const element = document.querySelectorAll('.color');
+
+  if (local === null) {
+    randomPaletteColor();
+  } else {
+    const load = JSON.parse(local);
+    for (let index = 0; index < load.colorPalette.length; index += 1) {
+      element[index].style.backgroundColor = load.colorPalette[index];
+    }
+  }
+  loadLocalStorageBoard();
 }
 
 // Seleção das cores.
@@ -147,4 +173,4 @@ const getButtonClear = document.getElementById('clear-board');
 getButtonClear.addEventListener('click', clearBoard);
 
 // Carregamento do Local Storage.
-window.onload = loadLocalStorage;
+window.onload = loadLocalStoragePaletta;
