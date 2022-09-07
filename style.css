@@ -83,3 +83,37 @@
 #clear-board:active {
   background-color: red;
 }
+
+.button-container-size {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  text-align: center;
+}
+
+#board-size {
+  border: 1px solid black;
+  padding: 10px;
+  width: 90px;
+  height: 30px;
+  border-radius: 15%;
+  font-size: 1.2em;
+}
+
+#generate-board {
+  font-size: 1.2em;
+  padding: 15px;
+  background-color: gray;
+  border-radius: 15%;
+  border: 1px solid black;
+}
+
+#generate-board:hover {
+  background-color: rgb(39, 38, 38);
+  transition: 0.3s;
+}
+
+#generate-board:active {
+  background-color: red;
+}

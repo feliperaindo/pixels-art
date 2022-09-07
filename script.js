@@ -70,24 +70,25 @@ function createRandomPaletteColor() {
   saveColor();
 }
 
-function createPixels(id) {
+function createPixels(id, number) {
   const element = document.getElementById(id);
 
-  for (let index = 0; index < 5; index += 1) {
+  for (let index = 0; index < number; index += 1) {
     const elementCreator = document.createElement('div');
     elementCreator.className = 'pixel';
     element.appendChild(elementCreator);
   }
 }
 
-function createHightPixelBoard() {
-  const element = document.querySelector('#pixel-board');
+function createHightPixelBoard(hight) {
+  const element = document.getElementById('pixel-board');
+  const atribute = (hight === undefined) ? 5 : hight;
 
-  for (let i = 0; i < 5; i += 1) {
+  for (let i = 0; i < atribute; i += 1) {
     const elementCreator = document.createElement('div');
     elementCreator.id = i;
     element.appendChild(elementCreator);
-    createPixels(i.toString());
+    createPixels(i.toString(), atribute);
   }
 }
 
@@ -159,6 +160,41 @@ function loadLocalStoragePaletta() {
   loadLocalStorageBoard();
 }
 
+function makePixelsDinamic() {
+  const pixel = document.querySelectorAll('.pixel');
+  pixel.forEach((pix) => {
+    pix.addEventListener('click', applayCollor);
+  });
+}
+
+function verifyValue() {
+  const getIntup = document.getElementById('board-size');
+
+  if (getIntup.value === '') {
+    alert('Board inválido!');
+  } else if (getIntup.value < getIntup.min) {
+    return getIntup.min;
+  } else if (getIntup.value > getIntup.max) {
+    return getIntup.max;
+  } else {
+    return getIntup;
+  }
+}
+
+function resizeBoard() {
+  const value = verifyValue();
+  const getChildren = document.getElementById('pixel-board').children;
+
+  for (let index = getChildren.length - 1; index >= 0; index -= 1) {
+    const removeItem = document.getElementById(index.toString());
+    removeItem.remove();
+  }
+  createHightPixelBoard(value);
+  clearBoard();
+  loadLocalStorageBoard();
+  makePixelsDinamic();
+}
+
 // Seleção das cores.
 const colorOne = document.querySelectorAll('.color')[0];
 const colorTwo = document.querySelectorAll('.color')[1];
@@ -171,12 +207,7 @@ colorFour.addEventListener('click', selectPaintColor);
 
 // Criação do quadrado de pixels.
 createHightPixelBoard();
-
-// Pintura de cada pixel.
-const pixel = document.querySelectorAll('.pixel');
-pixel.forEach((pix) => {
-  pix.addEventListener('click', applayCollor);
-});
+makePixelsDinamic();
 
 // Botão cores Aleatórias.
 const getButton = document.getElementById('button-random-color');
@@ -185,6 +216,10 @@ getButton.addEventListener('click', createRandomPaletteColor);
 // Botão Limpar.
 const getButtonClear = document.getElementById('clear-board');
 getButtonClear.addEventListener('click', clearBoard);
+
+// Botão que muda tamanho da tabela.
+const getButtonVQV = document.querySelector('#generate-board');
+getButtonVQV.addEventListener('click', resizeBoard);
 
 // Carregamento do Local Storage.
 window.onload = loadLocalStoragePaletta;
