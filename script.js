@@ -1,3 +1,6 @@
+// Variáveis importantes para página.
+const getElement = document.querySelectorAll('.color');
+
 function randomNumber() {
   const random = Math.floor(Math.random() * 255);
   return random;
@@ -15,8 +18,6 @@ function checkColorBlack(numbeR, numberG, numberB) {
   return true;
 }
 function checkRepetitionColor(color) {
-  const getElement = document.querySelectorAll('.color');
-
   for (let index = 0; index < getElement.length; index += 1) {
     if (color === getElement[index].style.backgroundColor) {
       return false;
@@ -39,18 +40,17 @@ function colorGenerator() {
   colorGenerator();
 }
 function saveColor() {
-  const saved = document.querySelectorAll('.color');
   const savedColor = {
     colorPalette: [],
   };
 
-  for (let index = 0; index < saved.length; index += 1) {
-    savedColor.colorPalette.push(saved[index].style.backgroundColor);
+  for (let index = 0; index < getElement.length; index += 1) {
+    const getCSS = window.getComputedStyle(getElement[index]).getPropertyValue('background-color');
+    savedColor.colorPalette.push(getCSS);
   }
   localStorage.setItem('colorPalette', JSON.stringify(savedColor));
 }
 function createRandomPaletteColor() {
-  const getElement = document.querySelectorAll('.color');
   let newColor = null;
 
   for (let index = 0; index <= 3; index += 1) {
@@ -84,11 +84,10 @@ function createHightPixelBoard(hight) {
 }
 function selectPaintColor(click) {
   const colorSelected = click.target;
-  const allColors = document.querySelectorAll('.color');
 
-  for (let index = 0; index < allColors.length; index += 1) {
-    if (allColors[index].classList.contains('selected')) {
-      allColors[index].classList.remove('selected');
+  for (let index = 0; index < getElement.length; index += 1) {
+    if (getElement[index].classList.contains('selected')) {
+      getElement[index].classList.remove('selected');
     }
   }
   colorSelected.classList.add('selected');
@@ -99,7 +98,8 @@ function savePixelsPainteds() {
     color: [],
   };
   for (let index = 0; index < board.length; index += 1) {
-    savedPixels.color.push(board[index].style.backgroundColor);
+    const getCSS = window.getComputedStyle(board[index]).getPropertyValue('background-color');
+    savedPixels.color.push(getCSS);
   }
   localStorage.setItem('pixelBoard', JSON.stringify(savedPixels));
 }
@@ -185,14 +185,13 @@ function loadSizeBoard() {
 }
 function loadLocalStoragePaletta() {
   const local = localStorage.getItem('colorPalette');
-  const element = document.querySelectorAll('.color');
 
   if (local === null) {
     createRandomPaletteColor();
   } else {
     const load = JSON.parse(local);
     for (let index = 0; index < load.colorPalette.length; index += 1) {
-      element[index].style.backgroundColor = load.colorPalette[index];
+      getElement[index].style.backgroundColor = load.colorPalette[index];
     }
   }
   loadSizeBoard();
@@ -200,10 +199,10 @@ function loadLocalStoragePaletta() {
 }
 
 // Seleção das cores.
-const colorOne = document.querySelectorAll('.color')[0];
-const colorTwo = document.querySelectorAll('.color')[1];
-const colorThree = document.querySelectorAll('.color')[2];
-const colorFour = document.querySelectorAll('.color')[3];
+const colorOne = getElement[0];
+const colorTwo = getElement[1];
+const colorThree = getElement[2];
+const colorFour = getElement[3];
 colorOne.addEventListener('click', selectPaintColor);
 colorTwo.addEventListener('click', selectPaintColor);
 colorThree.addEventListener('click', selectPaintColor);
