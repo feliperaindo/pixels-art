@@ -168,14 +168,14 @@ function makePixelsDinamic() {
 }
 
 function verifyValue() {
-  const getIntup = document.getElementById('board-size');
+  const getIntup = document.getElementById('board-size').value;
 
-  if (getIntup.value === '') {
+  if (getIntup === '') {
     alert('Board inválido!');
-  } else if (getIntup.value < getIntup.min) {
-    return getIntup.min;
-  } else if (getIntup.value > getIntup.max) {
-    return getIntup.max;
+  } else if (getIntup < 5) {
+    return 5;
+  } else if (getIntup > 50) {
+    return 50;
   } else {
     return getIntup;
   }
