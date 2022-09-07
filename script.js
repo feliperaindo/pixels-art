@@ -108,7 +108,7 @@ function applayCollor(click) {
   const pixelClicked = click.target;
   const colorSelected = document.querySelector('.selected');
 
-  pixelClicked.style.backgroundColor = colorSelected;
+  pixelClicked.style.backgroundColor = colorSelected.style.backgroundColor;
 }
 
 // Seleção das cores.
@@ -121,16 +121,18 @@ colorTwo.addEventListener('click', selectPaintColor);
 colorThree.addEventListener('click', selectPaintColor);
 colorFour.addEventListener('click', selectPaintColor);
 
+// Criação do quadrado de pixels.
+createHightPixelBoard();
+
 // Pintura de cada pixel.
 const pixel = document.querySelectorAll('.pixel');
-pixel.forEach((pixelSelected) => { pixelSelected.addEventListener('click', applayCollor); });
+pixel.forEach((pix) => {
+  pix.addEventListener('click', applayCollor);
+});
 
 // Botão cores Aleatórias.
 const getButton = document.getElementById('button-random-color');
 getButton.addEventListener('click', randomPaletteColor);
-
-// Criação do quadrado de pixels.
-createHightPixelBoard();
 
 // Carregamento do Local Storage.
 window.onload = loadLocalStorage;
