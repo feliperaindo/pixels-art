@@ -74,13 +74,12 @@ function createPixels(id, number) {
 }
 function createHightPixelBoard(hight) {
   const element = document.getElementById('pixel-board');
-  const atribute = (hight === undefined) ? 5 : hight;
 
-  for (let i = 0; i < atribute; i += 1) {
+  for (let i = 0; i < hight; i += 1) {
     const elementCreator = document.createElement('div');
     elementCreator.id = i;
     element.appendChild(elementCreator);
-    createPixels(i.toString(), atribute);
+    createPixels(i.toString(), hight);
   }
 }
 function selectPaintColor(click) {
@@ -175,7 +174,7 @@ function loadSizeBoard() {
   const size = JSON.parse(localStorage.getItem('boardSize'));
 
   if (size === null) {
-    createHightPixelBoard();
+    createHightPixelBoard(5);
     makePixelsDinamic();
   } else {
     removeItens();
