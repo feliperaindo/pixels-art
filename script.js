@@ -1,7 +1,17 @@
-function checkColorWhite(color) {
-  if (color === 'rgb(255, 255, 255)'
-        || color === '#ffffff'
-        || color === 'white') {
+function randomNumber() {
+  const random = Math.floor(Math.random() * 255);
+  return random;
+}
+
+function checkColorWhite(numbeR, numberG, numberB) {
+  if (numbeR === 255 && numberG === 255 && numberB === 255) {
+    return false;
+  }
+  return true;
+}
+
+function checkColorBlack(numbeR, numberG, numberB) {
+  if ((numbeR === 0 && numberG === 0 && numberB === 0)) {
     return false;
   }
   return true;
@@ -18,6 +28,21 @@ function checkRepetitionColor(color) {
   return true;
 }
 
+function colorGenerator() {
+  const numberR = randomNumber();
+  const numberG = randomNumber();
+  const numberB = randomNumber();
+  const verifyWhite = checkColorWhite(numberR, numberG, numberB);
+  const verifyBlack = checkColorBlack(numberR, numberG, numberB);
+  const color = `rgb(${numberR}, ${numberG}, ${numberB})`;
+  const verifyRepetition = checkRepetitionColor(color);
+
+  if (verifyWhite === true && verifyBlack === true && verifyRepetition === true) {
+    return color;
+  }
+  colorGenerator();
+}
+
 function saveColor() {
   const saved = document.querySelectorAll('.color');
   const savedColor = {
@@ -30,19 +55,7 @@ function saveColor() {
   localStorage.setItem('colorPalette', JSON.stringify(savedColor));
 }
 
-function colorGenerator() {
-  const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-  checkColorWhite(randomColor);
-  checkRepetitionColor(randomColor);
-
-  if (checkColorWhite === false || checkRepetitionColor === false) {
-    colorGenerator();
-  } else {
-    return randomColor;
-  }
-}
-
-function randomPaletteColor() {
+function createRandomPaletteColor() {
   const getElement = document.querySelectorAll('.color');
   let newColor = null;
 
@@ -107,6 +120,7 @@ function clearBoard() {
   for (let index = 0; index < selectAll.length; index += 1) {
     selectAll[index].style.backgroundColor = 'white';
   }
+  savePixelsPainteds();
 }
 
 function applayCollor(click) {
@@ -135,7 +149,7 @@ function loadLocalStoragePaletta() {
   const element = document.querySelectorAll('.color');
 
   if (local === null) {
-    randomPaletteColor();
+    createRandomPaletteColor();
   } else {
     const load = JSON.parse(local);
     for (let index = 0; index < load.colorPalette.length; index += 1) {
@@ -166,7 +180,7 @@ pixel.forEach((pix) => {
 
 // Botão cores Aleatórias.
 const getButton = document.getElementById('button-random-color');
-getButton.addEventListener('click', randomPaletteColor);
+getButton.addEventListener('click', createRandomPaletteColor);
 
 // Botão Limpar.
 const getButtonClear = document.getElementById('clear-board');
