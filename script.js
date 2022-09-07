@@ -1,17 +1,17 @@
-function checkColorWhite(element) {
-  if (element.style.backgroundColor === 'rgb(255, 255, 255)'
-        || element.style.backgroundColor === '#ffffff'
-        || element.style.backgroundColor === 'white') {
+function checkColorWhite(color) {
+  if (color === 'rgb(255, 255, 255)'
+        || color === '#ffffff'
+        || color === 'white') {
     return false;
   }
   return true;
 }
 
-function checkRepetitionColor(element) {
+function checkRepetitionColor(color) {
   const getElement = document.querySelectorAll('.color');
 
   for (let index = 0; index < getElement.length; index += 1) {
-    if (element.style.backgroundColor === getElement[index].style.backgroundColor) {
+    if (color === getElement[index].style.backgroundColor) {
       return false;
     }
   }
@@ -24,22 +24,34 @@ function saveColor() {
     colorPalette: [],
   };
 
-  for (let index = 1; index < saved.length; index += 1) {
+  for (let index = 0; index < saved.length; index += 1) {
     savedColor.colorPalette.push(saved[index].style.backgroundColor);
   }
   localStorage.setItem('colorPalette', JSON.stringify(savedColor));
 }
 
+function colorGenerator() {
+  const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  checkColorWhite(randomColor);
+  checkRepetitionColor(randomColor);
+
+  if (checkColorWhite === false || checkRepetitionColor === false) {
+    colorGenerator();
+  } else {
+    return randomColor;
+  }
+}
+
 function randomPaletteColor() {
   const getElement = document.querySelectorAll('.color');
+  let newColor = null;
 
-  for (let index = 1; index < 4; index += 1) {
-    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-    getElement[index].style.backgroundColor = randomColor;
-    checkColorWhite(getElement[index]);
-    checkRepetitionColor(getElement[index]);
-    if (checkColorWhite === false || checkRepetitionColor === false) {
-      index = 0;
+  for (let index = 0; index <= 3; index += 1) {
+    if (index === 0) {
+      getElement[index].style.backgroundColor = 'rgb(0, 0, 0)';
+    } else {
+      newColor = colorGenerator();
+      getElement[index].style.backgroundColor = newColor;
     }
   }
   saveColor();
@@ -47,13 +59,15 @@ function randomPaletteColor() {
 
 function loadLocalStorage() {
   const local = localStorage.getItem('colorPalette');
+  const element = document.querySelectorAll('.color');
 
   if (local === null) {
     randomPaletteColor();
-  }
-  const load = JSON.parse(localStorage.getItem('colorPalette'));
-  for (let index = 0; index < load.colorPalette.length; index += 1) {
-    document.querySelectorAll('.color')[index + 1].style.backgroundColor = load.colorPalette[index];
+  } else {
+    const load = JSON.parse(localStorage.getItem('colorPalette'));
+    for (let index = 0; index < load.colorPalette.length; index += 1) {
+      element[index].style.backgroundColor = load.colorPalette[index];
+    }
   }
 }
 
@@ -77,7 +91,6 @@ function createHightPixelBoard() {
     createPixels(i.toString());
   }
 }
-createHightPixelBoard();
 
 function selectPaintColor(click) {
   const colorSelected = click.target;
@@ -91,6 +104,14 @@ function selectPaintColor(click) {
   colorSelected.classList.add('selected');
 }
 
+function applayCollor(click) {
+  const pixelClicked = click.target;
+  const colorSelected = document.querySelector('.selected');
+
+  pixelClicked.style.backgroundColor = colorSelected;
+}
+
+// Seleção das cores.
 const colorOne = document.querySelectorAll('.color')[0];
 const colorTwo = document.querySelectorAll('.color')[1];
 const colorThree = document.querySelectorAll('.color')[2];
@@ -100,6 +121,16 @@ colorTwo.addEventListener('click', selectPaintColor);
 colorThree.addEventListener('click', selectPaintColor);
 colorFour.addEventListener('click', selectPaintColor);
 
+// Pintura de cada pixel.
+const pixel = document.querySelectorAll('.pixel');
+pixel.forEach((pixelSelected) => { pixelSelected.addEventListener('click', applayCollor); });
+
+// Botão cores Aleatórias.
 const getButton = document.getElementById('button-random-color');
 getButton.addEventListener('click', randomPaletteColor);
+
+// Criação do quadrado de pixels.
+createHightPixelBoard();
+
+// Carregamento do Local Storage.
 window.onload = loadLocalStorage;
