@@ -104,6 +104,14 @@ function selectPaintColor(click) {
   colorSelected.classList.add('selected');
 }
 
+function clearBoard() {
+  const selectAll = document.querySelectorAll('.pixel');
+
+  for (let index = 0; index < selectAll.length; index += 1) {
+    selectAll[index].style.backgroundColor = 'white';
+  }
+}
+
 function applayCollor(click) {
   const pixelClicked = click.target;
   const colorSelected = document.querySelector('.selected');
@@ -133,6 +141,10 @@ pixel.forEach((pix) => {
 // Botão cores Aleatórias.
 const getButton = document.getElementById('button-random-color');
 getButton.addEventListener('click', randomPaletteColor);
+
+// Botão Limpar.
+const getButtonClear = document.getElementById('clear-board');
+getButtonClear.addEventListener('click', clearBoard);
 
 // Carregamento do Local Storage.
 window.onload = loadLocalStorage;
